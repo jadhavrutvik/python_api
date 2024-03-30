@@ -1,7 +1,8 @@
 from rest_framework.decorators import api_view,permission_classes,authentication_classes
 from rest_framework.response import Response
 from rest_framework.authentication import BasicAuthentication
-
+from rest_framework_simplejwt.authentication import JWTAuthentication
+from rest_framework_simplejwt.views import TokenObtainPairView
 import io
 from django.contrib.auth import authenticate
 from django.shortcuts import render,redirect
@@ -10,10 +11,11 @@ from myproject.settings import BASE_DIR
 path=f"{BASE_DIR}\\myapp\\data.json"
 import json
 from rest_framework.permissions import IsAuthenticated
+from myapp.serializers  import *
 
 
 @api_view(['GET'])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_data(request,id):
     if request.method == 'GET':
@@ -24,7 +26,7 @@ def get_data(request,id):
 
 
 @api_view(['GET'])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def get_all_data(request):
     if request.method == 'GET':
@@ -34,7 +36,7 @@ def get_all_data(request):
 
 
 @api_view(["POST"])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def post_data(request):
     if request.method=="POST":
@@ -50,7 +52,7 @@ def post_data(request):
         return Response('Data posted!')
     
 @api_view(["DELETE"])
-@authentication_classes([BasicAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def delete_data(request,id):
     if request.method=="DELETE":
@@ -63,3 +65,10 @@ def delete_data(request,id):
 
 
 
+class MyTokenObtainPairView(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data)

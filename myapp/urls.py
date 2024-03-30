@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.urls import path
 
-from myapp.views import get_data,post_data,delete_data,get_all_data
+from myapp.views import get_data,post_data,delete_data,get_all_data,MyTokenObtainPairView
 
 urlpatterns = [
+    path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('get_data/<id>', get_data ),
     path('post_data/',post_data),
     path('delete_data/<id>',delete_data),
