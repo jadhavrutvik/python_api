@@ -1,27 +1,41 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view,permission_classes,authentication_classes
 from rest_framework.response import Response
+from rest_framework.authentication import BasicAuthentication
+
 import io
+from django.contrib.auth import authenticate
+from django.shortcuts import render,redirect
 from rest_framework.parsers import JSONParser
 from myproject.settings import BASE_DIR
 path=f"{BASE_DIR}\\myapp\\data.json"
 import json
+from rest_framework.permissions import IsAuthenticated
+
 
 @api_view(['GET'])
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_data(request,id):
     if request.method == 'GET':
         with open(path,'r') as f:
             data = json.load(f)
             d=data['items'][int(id)]
         return Response(d)
-    
+
+
 @api_view(['GET'])
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def get_all_data(request):
     if request.method == 'GET':
         with open(path,'r') as f:
             data = json.load(f)
         return Response(data)
-    
+
+
 @api_view(["POST"])
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def post_data(request):
     if request.method=="POST":
         json_data=request.body
@@ -36,6 +50,8 @@ def post_data(request):
         return Response('Data posted!')
     
 @api_view(["DELETE"])
+@authentication_classes([BasicAuthentication])
+@permission_classes([IsAuthenticated])
 def delete_data(request,id):
     if request.method=="DELETE":
         with open(path,'r') as f:
@@ -43,9 +59,7 @@ def delete_data(request,id):
             del data["items"][int(id)]
         with open(path, 'w') as f:
             json.dump(data,f, indent=4)
-        
-
-
-
-      
         return Response("Item deleted!")
+
+
+
