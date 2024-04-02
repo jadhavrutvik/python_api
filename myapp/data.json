@@ -1,53 +1,34 @@
 {
     "items": [
         {
-            "id": 1,
-            "name": "Item 1",
-            "description": "Description of Item 1"
+            "id": 10,
+            "name": "ashutosh",
+            "designation": "HR"
         },
         {
-            "id": 2,
-            "name": "Item 2",
-            "description": "Description of Item 2"
+            "id": 10,
+            "name": "ashutosh",
+            "designation": "HR"
         },
         {
-            "rollno": 108,
-            "name": "bob",
-            "city": "mumbai"
+            "id": 10,
+            "name": "ashutosh",
+            "designation": "developer"
         },
         {
-            "name": "rutvik"
+            "id": 10,
+            "name": "ashutosh",
+            "designation": "developer"
         },
         {
-            "name": "sanket",
-            "no": 1
+            "id": 12,
+            "name": "rutvik",
+            "designation": "hr"
         },
         {
-            "name": "sanket",
-            "no": 2
-        },
-        {
-            "name": "rutvik"
-        },
-        {
-            "name": "advait"
-        },
-        {
-            "name": "ram"
-        },
-        {
-            "name": "rutvik"
-        },
-        {
-            "name": "sanket"
-        },
-        {
-            "id": 4,
-            "name": "akash"
-        },
-        {
-            "username": "rutvik",
-            "password": 1234
+            "id": 12,
+            "name": "rutvik",
+            "designation": "developer"
         }
     ]
 }

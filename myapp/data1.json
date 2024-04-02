@@ -1,7 +1,8 @@
 {
     "items": [
         {
-            "name": "rutvik"
+            "name": "rutvik",
+            "Salary":20000
         },
         {
             "id": 2,

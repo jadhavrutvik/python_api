@@ -1,9 +1,11 @@
+from grpc import Status
 from rest_framework.decorators import api_view,permission_classes,authentication_classes
 from rest_framework.response import Response
 from rest_framework.authentication import BasicAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView
 import io
+from rest_framework import status
 from django.contrib.auth import authenticate
 from django.shortcuts import render,redirect
 from rest_framework.parsers import JSONParser
@@ -41,16 +43,23 @@ def get_all_data(request):
 def post_data(request):
     if request.method=="POST":
         json_data=request.body
+        print(json_data)
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
-        with open(path,'r') as f:
-            exiting_data=json.load(f)
+        print((python_data))
+        if  all(key in python_data for key in ["id","name","designation"]):
+            with open(path,'r') as f:
+                exiting_data=json.load(f)
 
-        exiting_data['items'].append(python_data)
-        with open(path, 'w') as f:
-            json.dump(exiting_data,f, indent=4)
-        return Response('Data posted!')
-    
+            exiting_data['items'].append(python_data)
+            with open(path, 'w') as f:
+                json.dump(exiting_data,f, indent=4)
+            return Response("Data posted successfully!", status=status.HTTP_201_CREATED)
+        else:
+            return Response("Please provide 'id', 'name', and 'designation' in the request.", status=status.HTTP_400_BAD_REQUEST)
+
+
+     
 @api_view(["DELETE"])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
