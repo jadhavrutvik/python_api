@@ -46,7 +46,6 @@ def post_data(request):
         print(json_data)
         stream=io.BytesIO(json_data)
         python_data=JSONParser().parse(stream)
-        print((python_data))
         if  all(key in python_data for key in ["id","name","designation"]):
             with open(path,'r') as f:
                 exiting_data=json.load(f)
