@@ -5,6 +5,8 @@ from rest_framework.authentication import BasicAuthentication
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import TokenObtainPairView
 import io
+from django.views.decorators.csrf import csrf_exempt
+from django.middleware.csrf import get_token
 from rest_framework import status
 from django.contrib.auth import authenticate
 from django.shortcuts import render,redirect
@@ -80,3 +82,10 @@ class MyTokenObtainPairView(TokenObtainPairView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response(serializer.validated_data)
+
+
+@api_view(['GET'])
+@csrf_exempt  # Exempt this view from CSRF protection for testing
+def get_csrf_token(request):
+    csrf_token = get_token(request)
+    return Response({"csrf_token": csrf_token})

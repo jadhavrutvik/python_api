@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.urls import path
 
-from myapp.views import get_data,post_data,delete_data,get_all_data,MyTokenObtainPairView
+from myapp.views import get_data,post_data,delete_data,get_all_data,MyTokenObtainPairView,get_csrf_token
 
 urlpatterns = [
     path('token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
@@ -24,5 +24,6 @@ urlpatterns = [
     path('post_data/',post_data),
     path('delete_data/<id>',delete_data),
     path("get_all_data/",get_all_data),
+    path('csrf/',get_csrf_token)
   
 ]
